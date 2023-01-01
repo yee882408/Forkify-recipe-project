@@ -3,7 +3,7 @@ import fracty from 'fracty';
 
 // import icons from '../img/icons.svg'; // Parcel 1
 import icons from 'url:../../img/icons.svg'; // Parcel 2
-import { Fraction } from 'fractional';
+// import { Fraction } from 'fractional';
 
 class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
@@ -94,19 +94,18 @@ class RecipeView extends View {
       </div>
 
       <div class="recipe__ingredients">
-        <h2 class="heading--2">Recipe ingredients</h2>
+        <h2 class="heading--2">烹調所需的食物內容</h2>
         <ul class="recipe__ingredient-list">
           ${this._data.ingredients.map(this._generateMarkupIngredient).join('')}
       </div>
 
       <div class="recipe__directions">
-        <h2 class="heading--2">How to cook it</h2>
+        <h2 class="heading--2">亨調方式</h2>
         <p class="recipe__directions-text">
-          This recipe was carefully designed and tested by
+          此食譜是由
           <span class="recipe__publisher">${
             this._data.publisher
-          }</span>. Please check out
-          directions at their website.
+          }</span>所創造。歡迎點擊下方連結了解更多資訊。
         </p>
         <a
           class="btn--small recipe__btn"
