@@ -1,7 +1,10 @@
 import { async } from 'regenerator-runtime';
-import { API_URL, RES_PER_PAGE, KEY } from './config.js';
-// import { getJSON, sendJSON } from './helpers.js';
-import { AJAX } from './helpers.js';
+import { API_URL } from './config';
+// import { getJSON } from './helper';
+import { RES_PER_PAGE } from './config';
+// import { sendJSON } from './helper';
+import { KEY } from './config';
+import { AJAX } from './helper';
 
 export const state = {
   recipe: {},
@@ -13,9 +16,10 @@ export const state = {
   },
   bookmarks: [],
 };
-
 const createRecipeObject = function (data) {
   const { recipe } = data.data;
+
+  //Change underline
   return {
     id: recipe.id,
     title: recipe.title,
@@ -34,12 +38,11 @@ export const loadRecipe = async function (id) {
     const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = createRecipeObject(data);
 
-    if (state.bookmarks.some(bookmark => bookmark.id === id))
+    if (state.bookmarks.some(bmk => bmk.id === id))
       state.recipe.bookmarked = true;
     else state.recipe.bookmarked = false;
   } catch (err) {
-    // Temp error handling
-    console.error(`${err} 💥💥💥💥`);
+    console.error(`${err}`);
     throw err;
   }
 };
@@ -61,16 +64,16 @@ export const loadSearchResults = async function (query) {
     });
     state.search.page = 1;
   } catch (err) {
-    console.error(`${err} 💥💥💥💥`);
+    console.error(`${err}`);
     throw err;
   }
 };
 
-export const getSearchResultsPage = function (page = state.search.page) {
+export const getPageSearchResults = function (page = state.search.page) {
   state.search.page = page;
 
-  const start = (page - 1) * state.search.resultsPerPage; // 0
-  const end = page * state.search.resultsPerPage; // 9
+  const start = (page - 1) * state.search.resultsPerPage;
+  const end = page * state.search.resultsPerPage;
 
   return state.search.results.slice(start, end);
 };
@@ -78,14 +81,21 @@ export const getSearchResultsPage = function (page = state.search.page) {
 export const updateServings = function (newServings) {
   state.recipe.ingredients.forEach(ing => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
-    // newQt = oldQt * newServings / oldServings // 2 * 8 / 4 = 4
   });
 
   state.recipe.servings = newServings;
 };
 
-const persistBookmarks = function () {
-  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+// const saveBookmarks = function () {
+//   localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+// };
+
+const saveBookmarks = () => {
+  try {
+    localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+  } catch (err) {
+    console.error(err, "localStorage disabled, can't use bookmarks");
+  }
 };
 
 export const addBookmark = function (recipe) {
@@ -95,7 +105,7 @@ export const addBookmark = function (recipe) {
   // Mark current recipe as bookmarked
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
 
-  persistBookmarks();
+  saveBookmarks();
 };
 
 export const deleteBookmark = function (id) {
@@ -106,7 +116,7 @@ export const deleteBookmark = function (id) {
   // Mark current recipe as NOT bookmarked
   if (id === state.recipe.id) state.recipe.bookmarked = false;
 
-  persistBookmarks();
+  saveBookmarks();
 };
 
 const init = function () {
@@ -115,10 +125,9 @@ const init = function () {
 };
 init();
 
-const clearBookmarks = function () {
+const clearBookmark = function () {
   localStorage.clear('bookmarks');
 };
-// clearBookmarks();
 
 export const uploadRecipe = async function (newRecipe) {
   try {
@@ -128,9 +137,7 @@ export const uploadRecipe = async function (newRecipe) {
         const ingArr = ing[1].split(',').map(el => el.trim());
         // const ingArr = ing[1].replaceAll(' ', '').split(',');
         if (ingArr.length !== 3)
-          throw new Error(
-            'Wrong ingredient fromat! Please use the correct format :)'
-          );
+          throw new Error('食譜格式錯誤，請輸入正確的食譜格式');
 
         const [quantity, unit, description] = ingArr;
 
@@ -142,8 +149,8 @@ export const uploadRecipe = async function (newRecipe) {
       source_url: newRecipe.sourceUrl,
       image_url: newRecipe.image,
       publisher: newRecipe.publisher,
-      cooking_time: +newRecipe.cookingTime,
       servings: +newRecipe.servings,
+      cooking_time: +newRecipe.cookingTime,
       ingredients,
     };
 
