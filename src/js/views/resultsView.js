@@ -1,15 +1,17 @@
-import View from './View.js';
-import previewView from './previewView.js';
-import icons from 'url:../../img/icons.svg'; // Parcel 2
+import previewView from './previewView';
 
-class ResultsView extends View {
+import icons from 'url:../../img/icons.svg';
+import View from './View';
+
+class ResultView extends View {
   _parentElement = document.querySelector('.results');
-  _errorMessage = 'No recipes found for your query! Please try again ;)';
+  _errMsg = '找不到該食譜，請在試一次!';
   _message = '';
 
+  //  When preview is sibling with resultview and bookmarkview can use this>>
   _generateMarkup() {
-    return this._data.map(result => previewView.render(result, false)).join('');
+    return this._data.map(result => previewView.render(result, false)).join(); // =this._data.map(dataResult => this._generateMarkupPreview(dataResult))
   }
 }
 
-export default new ResultsView();
+export default new ResultView();

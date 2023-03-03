@@ -1,21 +1,22 @@
-import View from './View.js';
-import previewView from './previewView.js';
-import icons from 'url:../../img/icons.svg'; // Parcel 2
+import View from './View';
+import previewView from './previewView';
+import icons from 'url:../../img/icons.svg';
 
-class BookmarksView extends View {
+class BookmarskView extends View {
   _parentElement = document.querySelector('.bookmarks__list');
-  _errorMessage = '請找到喜歡的食物，並加入書籤喔。 ;)';
+  _errMsg = '請找到喜歡的食譜並加入書籤!!';
   _message = '';
 
   addHandlerRender(handler) {
     window.addEventListener('load', handler);
   }
 
+  // When preview is sibling with resultview and bookmarkview can use this>>
   _generateMarkup() {
     return this._data
       .map(bookmark => previewView.render(bookmark, false))
-      .join('');
+      .join(); // =this._data.map(dataResult => this._generateMarkupPreview(dataResult))
   }
 }
 
-export default new BookmarksView();
+export default new BookmarskView();
