@@ -117,7 +117,7 @@ const controlUploadRecipe = async function (newRecipe) {
     addRecipeView.renderErr(err.message);
   }
   model.uploadRecipe(newRecipe);
-  setTimeout(location.reload(), MODEL_CLOSE_SEC * 2000);
+  // setTimeout(location.reload(), MODEL_CLOSE_SEC * 2000);
 };
 
 const init = function () {
