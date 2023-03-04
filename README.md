@@ -1,4 +1,11 @@
 # forkify Project
 
-Recipe application with custom recipe uploads.
-可用此網站查找食譜。
+搜尋喜歡的食物或食譜，並加入書籤
+
+# 網頁連結
+
+https://forkify-yee.netlify.app/
+
+# 使用者故事
+
+使用者身分
