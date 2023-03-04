@@ -8,7 +8,10 @@
 
 ## 使用技術
 
-
+- HTML、SCSS建造網頁架構及設計
+- 以Localstorage儲存書籤
+- 使用AJAX串接forkify API
+- 
 
 ## 使用者故事
 
