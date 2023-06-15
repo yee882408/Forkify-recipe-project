@@ -9,7 +9,7 @@
 ## 主要使用技術
 
 - HTML、SCSS建造網頁架構及設計
-- JavaScript完成與網頁的互動性，如搜尋欄、增加書籤等
+- 使用JavaScript製作搜尋欄、增加書籤等功能
 - 以Localstorage儲存書籤
 - 使用AJAX串接forkify API
 
